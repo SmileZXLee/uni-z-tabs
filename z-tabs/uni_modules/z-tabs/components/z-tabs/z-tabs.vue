@@ -1,8 +1,4 @@
- <!--
-z-tabs
-v0.0.1 (2022-05-22)
-by ZXLee
--->
+<!-- z-tabs-v0.0.1-by ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
@@ -176,7 +172,7 @@ by ZXLee
 				immediate: true
 			},
 			bottomDotX(newVal) {
-				this.$nextTick(()=>{
+				setTimeout(()=>{
 					// #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5
 					this.wxsPropType = {transformValue:newVal,transition:this.dotTransition};
 					// #endif
@@ -294,7 +290,7 @@ by ZXLee
 		display: flex;
 		/* #endif */
 		width: 750rpx;
-		height: 80rpx;
+		height: 72rpx;
 		padding: 10rpx 0px;
 		flex-direction: row;
 	}
@@ -333,7 +329,7 @@ by ZXLee
 	}
 	
 	.z-tabs-list-container{
-		padding-bottom: 18rpx;
+		padding-bottom: 16rpx;
 		position: relative;
 	}
 	
@@ -370,3 +366,4 @@ by ZXLee
 		border-radius: 100px;
 	}
 </style>
+
