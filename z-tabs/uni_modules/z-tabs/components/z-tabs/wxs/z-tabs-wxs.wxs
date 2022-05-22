@@ -1,0 +1,26 @@
+function propObserver(newValue, oldValue, ownerIns, ins) {
+	if (newValue && newValue.transition) {
+		_setTransformValue(newValue.transformValue, newValue.transition, ins);
+	}
+}
+
+function _setTransformValue(value, transition, ins) {
+	value = value || 0;
+	_setTransform('translateX(' + value + 'px)', transition, ins);
+}
+
+function _setTransform(transform, transition, ins) {
+	if (transform == 'translateY(0px)') {
+		transform = 'none';
+	}
+	ins.requestAnimationFrame(function() {
+		ins.setStyle({
+			'transform': transform,
+			'transition': transition
+		});
+	})
+}
+
+module.exports = {
+	propObserver: propObserver
+}

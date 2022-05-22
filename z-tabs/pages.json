@@ -1,0 +1,25 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "z-tabs(vue)"
+			}
+		}
+	    ,{
+            "path" : "pages/index-nvue/index-nvue",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "z-tabs(nvue)",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "z-tabs",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
