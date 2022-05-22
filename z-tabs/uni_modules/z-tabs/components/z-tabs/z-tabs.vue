@@ -1,3 +1,12 @@
+ <!--
+z-tabs
+v0.0.1 (2022-05-22)
+by ZXLee
+-->
+<!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
+<!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
+<!-- 反馈QQ群：790460711 -->
+
 <template name="z-tabs">
 	<view class="z-tabs-conatiner">
 		<slot name="left" />
@@ -12,11 +21,7 @@
 						</view>
 					</view>
 					<view class="z-tabs-bottom">
-						<view 
-						<!-- #ifndef APP-NVUE -->
-						v-if="bottomDotX > 0" 
-						<!-- #endif -->
-						ref="z-tabs-bottom-dot" class="z-tabs-bottom-dot"
+						<view v-if="bottomDotX > 0" ref="z-tabs-bottom-dot" class="z-tabs-bottom-dot"
 						<!-- #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5 -->
 						:change:prop="tabsWxs.propObserver" :prop="wxsPropType"
 						:style="[{background:activeColor}]"
@@ -48,12 +53,18 @@
 	 * z-tabs 标签
 	 * @description 一个简单轻量的tabs标签，全平台兼容，支持nvue、vue3
 	 * @tutorial 
-	 * @property {Array} list 数据源数组
-	 * @property {Number|String} current 当前选中的index
-	 * @property {Number|String} current 当前选中的index
-	 * @event {Function(index)} change 标签改变时触发 index: 点击了第几个tab，索引从0开始
-	 * @event {Function(index)} click 点击标签时触发 index: 点击了第几个tab，索引从0开始
-	 * @example <u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
+	 * @property {Array} list 数据源数组，支持形如['tab1','tab2']的格式或[{name:'tab1',value:1}]的格式
+	 * @property {Number|String} current 当前选中的index，默认为0
+	 * @property {Number|String} scroll-count list数组长度超过scrollCount时滚动显示(不自动铺满全屏)，默认为5
+	 * @property {Number} tab-width 自定义每个tab的宽度，默认为0，即代表根据内容自动撑开，单位为rpx
+	 * @property {String} name-key list中item的name(标题)的key，默认为name
+	 * @property {String} value-key list中item的value的key，默认为value
+	 * @property {String} active-color 激活状态tab的颜色
+	 * @property {String} inactive-color 未激活状态tab的颜色
+	 * @property {Object} active-style 激活状态tab的样式
+	 * @property {Object} inactive-style 未激活状态tab的样式
+	 * @event {Function(index,value)} change tabs改变时触发，index:当前切换到的index；value:当前切换到的value
+	 * @example <z-tabs :list="list"></z-tabs>
 	 */
 	export default {
 		name: 'z-tabs',
@@ -79,11 +90,11 @@
 				}
 			},
 			current: {
-				type: Number|String,
+				type: [Number, String],
 				default: 0
 			},
 			scrollCount: {
-				type: Number,
+				type: [Number, String],
 				default: 5
 			},
 			tabWidth: {
@@ -165,17 +176,19 @@
 				immediate: true
 			},
 			bottomDotX(newVal) {
-				// #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5
-				this.wxsPropType = {transformValue:newVal,transition:this.dotTransition};
-				// #endif
-				// #ifdef APP-NVUE
-				weexAnimation.transition(this.$refs['z-tabs-bottom-dot'], {
-					styles: {
-						transform: `translateX(${newVal}px)`,
-					},
-					duration: this.isFirstLoaded ? 200 : 0
+				this.$nextTick(()=>{
+					// #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5
+					this.wxsPropType = {transformValue:newVal,transition:this.dotTransition};
+					// #endif
+					// #ifdef APP-NVUE
+					weexAnimation.transition(this.$refs['z-tabs-bottom-dot'], {
+						styles: {
+							transform: `translateX(${newVal}px)`,
+						},
+						duration: this.isFirstLoaded ? 200 : 0
+					})
+					// #endif
 				})
-				// #endif
 			}
 		},
 		computed: {
@@ -207,6 +220,7 @@
 					this._updateDotPosition(index);
 				}
 			},
+			//scroll-view滚动
 			scroll(e){
 				this.currentScrollLeft = e.detail.scrollLeft;
 			},
@@ -229,10 +243,10 @@
 							}
 						}
 					}
-					this.bottomDotX = node.left + node.width / 2 - uni.upx2px(34) / 2 + offset;
+					this.bottomDotX = node.left + node.width / 2 - uni.upx2px(45) / 2 + offset;
 					if(this.tabsWidth){
 						setTimeout(()=>{
-							let scrollLeft = this.bottomDotX - this.tabsWidth / 2 + uni.upx2px(34) / 2;
+							let scrollLeft = this.bottomDotX - this.tabsWidth / 2 + uni.upx2px(45) / 2;
 							scrollLeft = Math.max(0,scrollLeft);
 							if(tabsContainerWidth){
 								scrollLeft = Math.min(scrollLeft,tabsContainerWidth - this.tabsWidth + 10);
@@ -352,7 +366,7 @@
 	
 	.z-tabs-bottom-dot{
 		height: 8rpx;
-		width: 36rpx;
+		width: 45rpx;
 		border-radius: 100px;
 	}
 </style>

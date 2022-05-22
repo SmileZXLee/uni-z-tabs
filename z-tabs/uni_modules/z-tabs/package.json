@@ -1,10 +1,12 @@
 {
   "id": "z-tabs",
   "name": "z-tabs",
-  "displayName": "【z-tabs】一个简单轻量的tabs标签，全平台兼容，支持nvue、vue3",
+  "displayName": "【z-tabs】一个简单轻量的tabs组件",
   "version": "0.0.1",
-  "description": "",
-  "keywords": ["tabs"],
+  "description": "全平台兼容，支持nvue、vue3",
+  "keywords": [
+    "tabs"
+],
   "repository": "https://github.com/SmileZXLee/uni-z-tabs",
   "engines": {
     "HBuilderX": "^3.0.7"
