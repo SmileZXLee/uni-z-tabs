@@ -1,10 +1,10 @@
-<!-- z-tabs-v0.0.1-by ZXLee -->
+<!-- z-tabs v0.0.2 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
 
 <template name="z-tabs">
-	<view class="z-tabs-conatiner">
+	<view class="z-tabs-conatiner" :style="[{height:tabsHeight + 'px'}]">
 		<slot name="left" />
 		<view class="z-tabs-scroll-view-conatiner">
 			<scroll-view ref="z-tabs-scroll-view" class="z-tabs-scroll-view" :scroll-x="shouldScroll" :scroll-left="scrollLeft" :show-scrollbar="false" :scroll-with-animation="isFirstLoaded" @scroll="scroll">
@@ -16,7 +16,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="z-tabs-bottom">
+					<view class="z-tabs-bottom" :style="[{width: tabsContainerWidth+'px'}]">
 						<view v-if="bottomDotX > 0" ref="z-tabs-bottom-dot" class="z-tabs-bottom-dot"
 						<!-- #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5 -->
 						:change:prop="tabsWxs.propObserver" :prop="wxsPropType"
@@ -72,6 +72,7 @@
 				scrollLeft: 0,
 				wxsPropType: '',
 				tabsWidth: 0,
+				tabsHeight: uni.upx2px(74),
 				tabsContainerWidth: 0,
 				itemNodeInfos: [],
 				isFirstLoaded: false,
@@ -131,6 +132,7 @@
 				this._getNodeClientRect(`.z-tabs-scroll-view`).then(res=>{
 					if(res && res.length){
 						this.tabsWidth = res[0].width;
+						this.tabsHeight = res[0].height;
 					}
 				})
 			})
@@ -211,7 +213,7 @@
 			//点击了tabs
 			tabsClick(index,item) {
 				if (this.currentIndex != index) {
-					this.$emit('change', index, item);
+					this.$emit('change', index, item[this.valueKey]);
 					this.currentIndex = index;
 					this._updateDotPosition(index);
 				}
@@ -232,6 +234,7 @@
 						if (nodeRes && nodeRes.length){
 							node = nodeRes[0];
 							offset = this.currentScrollLeft;
+							this.tabsHeight = Math.max(node.height + uni.upx2px(28),this.tabsHeight);
 							tabsContainerWidth = 0;
 							for(let i = 0;i < this.itemNodeInfos.length;i++){
 								let oldNode = this.itemNodeInfos[i];
@@ -291,7 +294,6 @@
 		/* #endif */
 		width: 750rpx;
 		height: 72rpx;
-		padding: 10rpx 0px;
 		flex-direction: row;
 	}
 	
@@ -329,7 +331,7 @@
 	}
 	
 	.z-tabs-list-container{
-		padding-bottom: 16rpx;
+		padding: 14rpx 0;
 		position: relative;
 	}
 	
@@ -357,7 +359,8 @@
 	.z-tabs-bottom{
 		position: absolute;
 		bottom: 0;
-		width: 100%;
+		left: 0;
+		right: 0;
 	}
 	
 	.z-tabs-bottom-dot{
