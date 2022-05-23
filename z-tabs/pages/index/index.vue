@@ -56,9 +56,11 @@
 			}
 		},
 		onLoad() {
+			const list = [];
 			for(let i = 0;i < 10;i++){
-				this.list.push('tab' + (i + 1));
+				list.push('tab' + (i + 1));
 			}
+			this.list = list;
 		},
 		methods: {
 			gotoNvue(){
