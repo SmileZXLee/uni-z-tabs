@@ -1,10 +1,10 @@
-<!-- z-tabs v0.0.3 by-ZXLee -->
+<!-- z-tabs v0.0.4 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
 
 <template name="z-tabs">
-	<view class="z-tabs-conatiner" :style="[{height:finalTabsHeight+'px'}]">
+	<view class="z-tabs-conatiner" :style="[{height:finalTabsHeight+'px',background:bgColor}]">
 		<slot name="left" />
 		<view class="z-tabs-scroll-view-conatiner">
 			<scroll-view ref="z-tabs-scroll-view" class="z-tabs-scroll-view" :scroll-x="shouldScroll" :scroll-left="scrollLeft" :show-scrollbar="false" :scroll-with-animation="isFirstLoaded" @scroll="scroll">
@@ -59,6 +59,7 @@
 	 * @property {String} inactive-color 未激活状态tab的颜色
 	 * @property {Object} active-style 激活状态tab的样式
 	 * @property {Object} inactive-style 未激活状态tab的样式
+	 * @property {String} bg-color tabs背景色
 	 * @property {Boolean} init-trigger-change 初始化时是否自动触发change事件
 	 * @event {Function(index,value)} change tabs改变时触发，index:当前切换到的index；value:当前切换到的value
 	 * @example <z-tabs :list="list"></z-tabs>
@@ -128,28 +129,32 @@
 					return {};
 				}
 			},
+			bgColor: {
+				type: String,
+				default: 'white'
+			},
 			initTriggerChange: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 		},
 		mounted() {
 			this.$nextTick(()=>{
-				this._getNodeClientRect(`.z-tabs-scroll-view`).then(res=>{
-					if(res && res.length){
-						this.tabsWidth = res[0].width;
-						this.tabsHeight = res[0].height;
-					}
-				})
+				setTimeout(()=>{
+					this._getNodeClientRect(`.z-tabs-scroll-view`).then(res=>{
+						if(res && res.length && res[0].width){
+							this.tabsWidth = res[0].width;
+							this.tabsHeight = res[0].height;
+						}
+					})
+				},10)
 			})
 		},
 		watch: {
 			current: {
 				handler(newVal) {
-					if(newVal > 0){
-						this.currentIndex = newVal;
-						this._updateDotPosition(this.currentIndex);
-					}
+					this.currentIndex = newVal;
+					this._updateDotPosition(this.currentIndex);
 					if (this.initTriggerChange) {
 						if (newVal < this.list.length) {
 							this.$emit('change', newVal, this.list[newVal][this.valueKey]);
@@ -213,7 +218,7 @@
 				return this.list.length > this.scrollCount;
 			},
 			finalTabsHeight(){
-				return this.tabsHeight + uni.upx2px(10);
+				return this.tabsHeight + uni.upx2px(8);
 			},
 			tabsStyle(){
 				const stl = this.shouldScroll ? {'flex-shrink': 0} : {'flex': 1};
@@ -232,6 +237,9 @@
 			},
 		},
 		methods: {
+			setDx(dx){
+				//todo
+			},
 			//点击了tabs
 			tabsClick(index,item) {
 				if (this.currentIndex != index) {
