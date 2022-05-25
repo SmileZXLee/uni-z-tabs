@@ -1,6 +1,6 @@
 # z-tabs
 
-[![version](https://img.shields.io/badge/version-0.0.3-blue)](https://github.com/SmileZXLee/uni-z-tabs)
+[![version](https://img.shields.io/badge/version-0.0.4-blue)](https://github.com/SmileZXLee/uni-z-tabs)
 [![license](https://img.shields.io/github/license/SmileZXLee/uni-z-tabs)](https://en.wikipedia.org/wiki/MIT_License)
 
 ***
@@ -25,6 +25,7 @@
 | inactive-color      | 未激活状态tab的颜色                                          | String         | #888888 | -      |
 | active-style        | 激活状态tab的样式                                            | Object         | {}      | -      |
 | inactive-style      | 未激活状态tab的样式                                          | Object         | {}      | -      |
+| bg-color            | tabs背景色                                                   | String         | white   | -      |
 | init-trigger-change | 初始化时是否自动触发change事件                               | Boolean        | true    | false  |
 
 ### events
@@ -35,9 +36,17 @@
 
 ### slots
 
-
-
 | 名称  | 说明         |
 | :---- | ------------ |
 | left  | tabs左侧插槽 |
 | right | tabs右侧插槽 |
+
+### 支持全局配置
+
+* 在`/z-tabs/components/z-tabs/config/index.js`文件中进行配置
+
+```js
+export default {
+	'active-color': 'red'
+}
+```

@@ -17,7 +17,7 @@
 						</view>
 					</view>
 					<view class="z-tabs-bottom" :style="[{width: tabsContainerWidth+'px'}]">
-						<view v-if="bottomDotX > 0" ref="z-tabs-bottom-dot" class="z-tabs-bottom-dot"
+						<view v-if="showBottomDot" ref="z-tabs-bottom-dot" class="z-tabs-bottom-dot"
 						<!-- #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5 -->
 						:change:prop="tabsWxs.propObserver" :prop="wxsPropType"
 						:style="[{background:activeColor}]"
@@ -45,6 +45,24 @@
 	const weexDom = weex.requireModule('dom');
 	const weexAnimation = weex.requireModule('animation');
 	// #endif
+	import zTabsConfig from './config/index'
+	
+	//获取默认配置信息
+	function _gc(key, defaultValue) {
+		let config = null;
+		if (zTabsConfig && Object.keys(zTabsConfig).length) {
+			config = zTabsConfig;
+		} else {
+			return defaultValue;
+		}
+		const value = config[_toKebab(key)];
+		return value === undefined ? defaultValue : value;
+	}
+	//驼峰转短横线
+	function _toKebab(value) {
+		return value.replace(/([A-Z])/g, "-$1").toLowerCase();
+	}
+	
 	/**
 	 * z-tabs 标签
 	 * @description 一个简单轻量的tabs标签，全平台兼容，支持nvue、vue3
@@ -70,11 +88,12 @@
 			return {
 				currentIndex: 0,
 				bottomDotX: 0,
+				showBottomDot: false,
 				
 				scrollLeft: 0,
 				wxsPropType: '',
-				tabsWidth: 0,
-				tabsHeight: uni.upx2px(74),
+				tabsWidth: uni.upx2px(750),
+				tabsHeight: uni.upx2px(82),
 				tabsContainerWidth: 0,
 				itemNodeInfos: [],
 				isFirstLoaded: false,
@@ -91,51 +110,51 @@
 			},
 			current: {
 				type: [Number, String],
-				default: 0
+				default: _gc('current',0)
 			},
 			scrollCount: {
 				type: [Number, String],
-				default: 5
+				default: _gc('scrollCount',5)
 			},
 			tabWidth: {
 				type: Number,
-				default: 0
+				default: _gc('tabWidth',0)
 			},
 			nameKey: {
 				type: String,
-				default: 'name'
+				default: _gc('nameKey','name')
 			},
 			valueKey: {
 				type: String,
-				default: 'value'
+				default: _gc('valueKey','value')
 			},
 			activeColor: {
 				type: String,
-				default: '#007AFF'
+				default: _gc('activeColor','#007AFF')
 			},
 			inactiveColor: {
 				type: String,
-				default: '#888888'
+				default: _gc('inactiveColor','#888888')
 			},
 			activeStyle: {
 				type: Object,
 				default: function() {
-					return {};
+					return _gc('activeStyle',{});
 				}
 			},
 			inactiveStyle: {
 				type: Object,
 				default: function() {
-					return {};
+					return _gc('inactiveStyle',{});
 				}
 			},
 			bgColor: {
 				type: String,
-				default: 'white'
+				default: _gc('bgColor','white')
 			},
 			initTriggerChange: {
 				type: Boolean,
-				default: false
+				default: _gc('initTriggerChange',false)
 			},
 		},
 		mounted() {
@@ -199,17 +218,22 @@
 			},
 			bottomDotX(newVal) {
 				setTimeout(()=>{
-					// #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5
-					this.wxsPropType = {transformValue:newVal,transition:this.dotTransition};
-					// #endif
-					// #ifdef APP-NVUE
-					weexAnimation.transition(this.$refs['z-tabs-bottom-dot'], {
-						styles: {
-							transform: `translateX(${newVal}px)`,
-						},
-						duration: this.isFirstLoaded ? 200 : 0
+					if(newVal > 0){
+						this.showBottomDot = true;
+					}
+					this.$nextTick(()=>{
+						// #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5
+						this.wxsPropType = {transformValue:newVal,transition:this.dotTransition};
+						// #endif
+						// #ifdef APP-NVUE
+						weexAnimation.transition(this.$refs['z-tabs-bottom-dot'], {
+							styles: {
+								transform: `translateX(${newVal}px)`,
+							},
+							duration: this.isFirstLoaded ? 200 : 0
+						})
+						// #endif
 					})
-					// #endif
 				})
 			}
 		},
@@ -218,7 +242,7 @@
 				return this.list.length > this.scrollCount;
 			},
 			finalTabsHeight(){
-				return this.tabsHeight + uni.upx2px(8);
+				return this.tabsHeight;
 			},
 			tabsStyle(){
 				const stl = this.shouldScroll ? {'flex-shrink': 0} : {'flex': 1};
@@ -233,7 +257,7 @@
 				return this.shouldScroll ? {} : {'flex':1};
 			},
 			dotTransition(){
-				return this.isFirstLoaded?'transform .2s linear':'none';
+				return this.isFirstLoaded ? 'transform .2s linear':'none';
 			},
 		},
 		methods: {
@@ -323,7 +347,6 @@
 		display: flex;
 		/* #endif */
 		width: 750rpx;
-		height: 72rpx;
 		flex-direction: row;
 	}
 	
