@@ -7,4 +7,4 @@
 ## 在DCloud插件市场中访问：[https://ext.dcloud.net.cn/plugin?name=z-tabs](https://ext.dcloud.net.cn/plugin?name=z-tabs)
  
  ## 预览
-![Image text](https://img-cdn-aliyun.dcloud.net.cn/stream/plugin_screens/z-tabs_0.png?image_process=quality,q_70/format)
+![Image text](https://img-cdn-aliyun.dcloud.net.cn/stream/plugin_screens/z-tabs_0.png?image_process=quality,q_70/format&x-oss-process=image/resize,h_700,m_lfit)
