@@ -27,6 +27,12 @@
 		</view>
 		<view class="group">
 			<text class="group-title">
+				显示徽标数
+			</text>	
+			<z-tabs :list="badgeList"></z-tabs>
+		</view>
+		<view class="group">
+			<text class="group-title">
 				自定义右侧插槽
 			</text>	
 			<z-tabs :list="list">
@@ -52,15 +58,35 @@
 	export default {
 		data() {
 			return {
-				list: []
+				list: [],
+				badgeList: []
 			}
 		},
 		onLoad() {
+			//普通情况数组
 			const list = [];
-			for(let i = 0;i < 10;i++){
+			for(let i = 0;i < 10;i++) {
 				list.push('tab' + (i + 1));
 			}
 			this.list = list;
+			
+			//自定义徽标数数组
+			const badgeList = [];
+			for(let i = 0;i < 10;i++) {
+				if(i !== 2){
+					badgeList.push({
+						name: 'tab' + (i + 1),
+					});
+				}else {
+					badgeList.push({
+						name: 'tab' + (i + 1),
+						badge: {
+							count: 6
+						}
+					});
+				}
+			}
+			this.badgeList = badgeList;
 		},
 		methods: {
 			gotoNvue(){
