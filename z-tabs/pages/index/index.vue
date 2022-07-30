@@ -4,7 +4,7 @@
 			<text class="group-title">
 				基本使用
 			</text>	
-			<z-tabs :list="list"></z-tabs>
+			<z-tabs :list="list" :tab-width="150"></z-tabs>
 		</view>
 		
 		<view class="group">

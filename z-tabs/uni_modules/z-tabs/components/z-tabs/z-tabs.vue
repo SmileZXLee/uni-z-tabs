@@ -1,4 +1,4 @@
-<!-- z-tabs v0.1.0 by-ZXLee -->
+<!-- z-tabs v0.1.1 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
