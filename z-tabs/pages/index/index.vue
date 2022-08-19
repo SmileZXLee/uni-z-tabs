@@ -4,7 +4,7 @@
 			<text class="group-title">
 				基本使用
 			</text>	
-			<z-tabs :list="list" :tab-width="150"></z-tabs>
+			<z-tabs :list="list"></z-tabs>
 		</view>
 		
 		<view class="group">
@@ -69,7 +69,7 @@
 				list.push('tab' + (i + 1));
 			}
 			this.list = list;
-			
+		
 			//自定义徽标数数组
 			const badgeList = [];
 			for(let i = 0;i < 10;i++) {

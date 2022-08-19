@@ -1,4 +1,4 @@
-<!-- z-tabs v0.1.2 by-ZXLee -->
+<!-- z-tabs v0.1.3 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
@@ -232,9 +232,9 @@
 			},
 			list: {
 				handler(newVal) {
-					
+					this._handleListChange(newVal);
 				},
-				immediate: true
+				immediate: false
 			},
 			bottomDotX(newVal) {
 				setTimeout(()=>{
