@@ -41,6 +41,19 @@
 				</template>
 			</z-tabs>
 		</view>
+		<view class="group">
+			<text class="group-title">
+				与swiper联动
+			</text>	
+			<z-tabs ref="tabs" :current="swiperCurrent" :list="swiperList" @change="tabsChange"></z-tabs>
+			<swiper class="swiper" :current="swiperCurrent" @change="swiperChange" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
+			    <swiper-item v-for="(item, index) in swiperList" :key="index">
+					<view class="swiper-item-view" :style="{backgroundColor: item.color}">
+						<text class="swiper-item-text">{{item.name}}</text>
+					</view>
+			    </swiper-item>
+			</swiper>
+		</view>
 	</view>
 </template>
 
@@ -49,7 +62,9 @@
 		data() {
 			return {
 				list: [],
-				badgeList: []
+				badgeList: [],
+				swiperList: [],
+				swiperCurrent: 0
 			}
 		},
 		onLoad() {
@@ -77,14 +92,57 @@
 				}
 			}
 			this.badgeList = badgeList;
+			
+			//与swiper联动数组
+			const swiperList = [];
+			for(let i = 0;i < 4;i++) {
+				swiperList.push({
+					name: 'tab' + (i + 1),
+					color: this._getRandomColor()
+				});
+			}
+			this.swiperList = swiperList;
 		},
 		methods: {
+			//tabs通知swiper切换
+			tabsChange(index) {
+				this.swiperCurrent = index;
+			},
+			//swiper change时触发
+			swiperChange(e) {
+				// #ifndef APP-PLUS || H5 || MP-WEIXIN || MP-QQ
+				let current = e.target.current || e.detail.current;
+				this.tabsChange(current);
+				// #endif
+			},
+			//swiper滑动中
+			swiperTransition(e) {
+				this.$refs.tabs.setDx(e.detail.dx);
+			},
+			//swiper滑动结束
+			swiperAnimationfinish(e) {
+				this.swiperCurrent = e.detail.current;
+				this.$refs.tabs.unlockDx();
+			},
 			
+			// 生成随机颜色
+			_getRandomColor() {
+				const rgb = [];
+				for (let i = 0; i < 3; ++i) {
+					let color = Math.floor(Math.random() * 256).toString(16)
+					color = color.length == 1 ? '0' + color : color
+					rgb.push(color)
+				}
+				return '#' + rgb.join('');
+			}
 		}
 	}
 </script>
 
 <style>
+	.content{
+		padding-bottom: 20rpx;
+	}
 	.group{
 		margin-top: 40rpx;
 	}
@@ -92,5 +150,21 @@
 		padding-left: 20rpx;
 		font-size: 26rpx;
 		color: #aaaaaa;
+	}
+	.swiper{
+		height: 300rpx;
+	}
+	.swiper-item-view{
+		background-color: #007AFF;
+		height: 300rpx;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		
+	}
+	.swiper-item-text{
+		color: white;
+		font-size: 50rpx;
 	}
 </style>
