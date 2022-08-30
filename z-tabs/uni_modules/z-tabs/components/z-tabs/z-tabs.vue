@@ -1,4 +1,4 @@
-<!-- z-tabs v0.1.4 by-ZXLee -->
+<!-- z-tabs v0.1.5 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
@@ -74,6 +74,7 @@
 	 * @property {Number|String} bar-width 滑块宽度，单位rpx
 	 * @property {Number|String} bar-height 滑块高度，单位rpx
 	 * @property {Object} bar-style 滑块样式，其中的width和height将被bar-width和bar-height覆盖
+	 * @property {String} bar-animate-mode 切换tab时滑块动画模式，与swiper联动时有效，点击切换tab时无效，必须调用setDx。默认为line，即切换tab时滑块宽度保持不变，线性运动。可选值为worm，即为类似毛毛虫蠕动效果
 	 * @property {String} name-key list中item的name(标题)的key，默认为name
 	 * @property {String} value-key list中item的value的key，默认为value
 	 * @property {String} active-color 激活状态tab的颜色
