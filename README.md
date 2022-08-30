@@ -2,7 +2,7 @@
 [![version](https://img.shields.io/badge/version-0.1.5-blue)](https://github.com/SmileZXLee/uni-z-tabs)
 [![license](https://img.shields.io/github/license/SmileZXLee/uni-z-tabs)](https://en.wikipedia.org/wiki/MIT_License)
 
-> uniapp中一个简单轻量的tabs标签，全平台兼容，支持nvue、vue3
+> 【基于uni-app】一个简单轻量的tabs标签，全平台兼容，支持nvue、vue3
 
 ## 在DCloud插件市场中访问：[https://ext.dcloud.net.cn/plugin?name=z-tabs](https://ext.dcloud.net.cn/plugin?name=z-tabs)
  
