@@ -57,7 +57,8 @@
 			<text class="group-title">
 				与swiper联动
 			</text>	
-			<z-tabs ref="tabs" :current="swiperCurrent" :list="swiperList" @change="tabsChange"></z-tabs>
+			<!-- 可通过设置bar-animate-mode="worm"开启毛毛虫模式-->
+			<z-tabs ref="tabs" bar-animate-mode="worm" :current="swiperCurrent" :list="swiperList" @change="tabsChange"></z-tabs>
 			<swiper class="swiper" :current="swiperCurrent" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
 			    <swiper-item v-for="(item, index) in swiperList" :key="index">
 					<view class="swiper-item-view" :style="{backgroundColor: item.color}">
