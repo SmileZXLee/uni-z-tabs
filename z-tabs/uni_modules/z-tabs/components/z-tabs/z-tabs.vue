@@ -1,4 +1,4 @@
-<!-- z-tabs v0.1.5 by-ZXLee -->
+<!-- z-tabs v0.1.6 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
@@ -20,7 +20,7 @@
 						</view>
 					</view>
 					<view class="z-tabs-bottom" :style="[{width: tabsContainerWidth+'px'}]">
-						<view v-if="showBottomDot" ref="z-tabs-bottom-dot" class="z-tabs-bottom-dot"
+						<view ref="z-tabs-bottom-dot" class="z-tabs-bottom-dot"
 						<!-- #ifndef APP-NVUE -->
 						:style="[{transform:`translateX(${bottomDotX}px)`,transition:dotTransition,background:activeColor},finalDotStyle]"
 						<!-- #endif -->
@@ -95,7 +95,7 @@
 			return {
 				currentIndex: 0,
 				currentSwiperIndex: 0,
-				bottomDotX: 0,
+				bottomDotX: -1,
 				bottomDotXForIndex: 0,
 				showBottomDot: false,
 				shouldSetDx: true,
@@ -223,8 +223,12 @@
 			},
 		},
 		mounted() {
-			this.$nextTick(()=>{
-				setTimeout(()=>{
+			this.$nextTick(() => {
+				let delayTime = 10;
+				// #ifdef APP-NVUE || MP-BAIDU
+				delayTime = 50;
+				// #endif
+				setTimeout(() => {
 					this._getNodeClientRect(`.z-tabs-scroll-view-conatiner`).then(res=>{
 						if(res && res.length && res[0].width){
 							this.tabsWidth = res[0].width;
@@ -233,7 +237,7 @@
 							this._handleListChange(this.list);
 						}
 					})
-				},10)
+				},delayTime)
 			})
 		},
 		watch: {
@@ -258,11 +262,11 @@
 				immediate: false
 			},
 			bottomDotX(newVal) {
-				setTimeout(()=>{
-					if(newVal > 0){
-						this.showBottomDot = true;
-					}
-					this.$nextTick(()=>{
+				if(newVal >= 0){
+					// #ifndef APP-NVUE
+					this.showBottomDot = true;
+					// #endif
+					this.$nextTick(() => {
 						// #ifdef APP-NVUE
 						weexAnimation.transition(this.$refs['z-tabs-bottom-dot'], {
 							styles: {
@@ -270,9 +274,12 @@
 							},
 							duration: this.showAnimate ? 200 : 0
 						})
+						setTimeout(() => {
+							this.showBottomDot = true;
+						},10)
 						// #endif
 					})
-				})
+				}
 			},
 			barWidth: {
 				handler(newVal) {
@@ -314,7 +321,7 @@
 				return this.showAnimate ? 'transform .2s linear':'none';
 			},
 			finalDotStyle(){
-				return Object.assign(this.barStyle,{width: this.finalBarWidth + 'px',height: this.barHeight + 'rpx'});
+				return Object.assign(this.barStyle,{width: this.finalBarWidth + 'px',height: this.barHeight + 'rpx', opacity: this.showBottomDot ? 1 : 0});
 			}
 		},
 		methods: {
@@ -448,8 +455,8 @@
 						let itemNodeInfos = [];
 						let tabsContainerWidth = 0;
 						let delayTime = 0;
-						// #ifdef APP-VUE || MP-BAIDU
-						delayTime = 200;
+						// #ifdef MP-BAIDU
+						delayTime = 100;
 						// #endif
 						setTimeout(async()=>{
 							for(let i = 0;i < newVal.length;i++){
@@ -460,10 +467,14 @@
 									itemNodeInfos.push(node);
 									tabsContainerWidth += node.width;
 								}
+								if (i === this.currentIndex){
+									this.itemNodeInfos = itemNodeInfos;
+									this.tabsContainerWidth = tabsContainerWidth;
+									this._updateDotPosition(this.currentIndex);
+								}
 							}
 							this.itemNodeInfos = itemNodeInfos;
 							this.tabsContainerWidth = tabsContainerWidth;
-							this._updateDotPosition(this.currentIndex);
 						},delayTime)
 					}
 				})
