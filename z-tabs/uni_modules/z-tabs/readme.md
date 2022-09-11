@@ -1,6 +1,6 @@
 # z-tabs
 
-[![version](https://img.shields.io/badge/version-0.1.7-blue)](https://github.com/SmileZXLee/uni-z-tabs)
+[![version](https://img.shields.io/badge/version-0.1.8-blue)](https://github.com/SmileZXLee/uni-z-tabs)
 [![license](https://img.shields.io/github/license/SmileZXLee/uni-z-tabs)](https://en.wikipedia.org/wiki/MIT_License)
 
 ***
@@ -59,6 +59,7 @@
 | bar-width           | 滑块宽度，单位rpx                                            | Number\|String | 45      | -      |
 | bar-height          | 滑块高度，单位rpx                                            | Number\|String | 8       | -      |
 | bar-style           | 滑块样式，其中的`width`和`height`将被`bar-width`和`bar-height`覆盖 | Object         | {}      | -      |
+| bottom-space        | tabs与底部的间距，单位rpx                                    | Number\|String | 8       | -      |
 | bar-animate-mode    | 【v0.1.5起支持】切换tab时滑块动画模式，与`swiper`联动时有效，点击切换tab时无效，必须调用`setDx`。默认为`line`，即切换tab时滑块宽度保持不变，线性运动。可选值为`worm`，即为类似毛毛虫蠕动效果 | String         | line    | worm   |
 | name-key            | list中item的name(标题)的key                                  | String         | name    | -      |
 | value-key           | list中item的value的key                                       | String         | value   | -      |
