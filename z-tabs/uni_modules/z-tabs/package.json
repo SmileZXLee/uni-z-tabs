@@ -28,7 +28,7 @@
       "data": "无",
       "permissions": "无"
     },
-    "npmurl": "",
+    "npmurl": "https://www.npmjs.com/package/@zxlee/z-tabs",
     "type": "component-vue"
   },
   "uni_modules": {

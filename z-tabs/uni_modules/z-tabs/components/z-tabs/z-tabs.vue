@@ -70,7 +70,6 @@
 	 * @property {Number|String} current 当前选中的index，默认为0
 	 * @property {Number|String} scroll-count list数组长度超过scrollCount时滚动显示(不自动铺满全屏)，默认为5
 	 * @property {Number|String} tab-width 自定义每个tab的宽度，默认为0，即代表根据内容自动撑开，单位为rpx
-	 * @property {Number|String} tab-width 自定义每个tab的宽度，默认为0，即代表根据内容自动撑开，单位为rpx
 	 * @property {Number|String} bar-width 滑块宽度，单位rpx
 	 * @property {Number|String} bar-height 滑块高度，单位rpx
 	 * @property {Object} bar-style 滑块样式，其中的width和height将被bar-width和bar-height覆盖
