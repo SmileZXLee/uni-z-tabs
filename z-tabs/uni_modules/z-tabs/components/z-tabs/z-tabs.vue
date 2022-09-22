@@ -9,7 +9,7 @@
 			<slot name="left" />
 		</view>
 		<view ref="z-tabs-scroll-view-conatiner" class="z-tabs-scroll-view-conatiner">
-			<scroll-view ref="z-tabs-scroll-view" class="z-tabs-scroll-view" :scroll-x="shouldScroll" :scroll-left="scrollLeft" :show-scrollbar="false" :scroll-with-animation="isFirstLoaded" @scroll="scroll">
+			<scroll-view ref="z-tabs-scroll-view" class="z-tabs-scroll-view" :scroll-x="true" :scroll-left="scrollLeft" :show-scrollbar="false" :scroll-with-animation="isFirstLoaded" @scroll="scroll">
 				<view class="z-tabs-list-container" :style="[tabsListStyle]">
 					<view class="z-tabs-list" :style="[tabsListStyle, {marginTop: -bottomSpace+'rpx'}]">
 						<view :ref="`z-tabs-item-${index}`" :id="`z-tabs-item-${index}`" class="z-tabs-item" :style="[tabStyle]" v-for="(item,index) in list" :key="index" @click="tabsClick(index,item)">
@@ -485,6 +485,7 @@
 							}
 							this.itemNodeInfos = itemNodeInfos;
 							this.tabsContainerWidth = tabsContainerWidth;
+							this._updateDotPosition(this.currentIndex);
 						},delayTime)
 					}
 				})
