@@ -1,4 +1,4 @@
-<!-- z-tabs v0.1.9 by-ZXLee -->
+<!-- z-tabs v0.2.0 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
@@ -580,8 +580,11 @@
 		/* #ifndef APP-NVUE */
 		overflow: hidden;
 		display: flex;
+		width: 100%;
 		/* #endif */
+		/* #ifdef APP-NVUE */
 		width: 750rpx;
+		/* #endif */
 		flex-direction: row;
 		height: 80rpx;
 	}
