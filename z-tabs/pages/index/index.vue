@@ -52,6 +52,14 @@
 			</z-tabs>
 		</view>
 		
+		<!-- 二次点击触发事件 -->
+		<view class="group">
+			<text class="group-title">
+				二次点击触发事件
+			</text>	
+			<z-tabs :list="list" @secondClick="secondClick"></z-tabs>
+		</view>
+		
 		<!-- 与swiper联动 -->
 		<view class="group">
 			<text class="group-title">
@@ -66,14 +74,6 @@
 					</view>
 			    </swiper-item>
 			</swiper>
-		</view>
-		
-		<!-- 二次点击 -->
-		<view class="group">
-			<text class="group-title">
-				二次点击
-			</text>	
-			<z-tabs :list="list" enableSecondClick @secondClick="secondClick"></z-tabs>
 		</view>
 		
 		<!-- #ifdef APP-PLUS -->
@@ -167,11 +167,11 @@
 				return '#' + rgb.join('');
 			},
 			
-			//二次点击
+			//二次点击触发事件
 			secondClick(index,item){
 				uni.showToast({
-					title:`tab${index+1},二次点击确认`,
-					icon:'none'
+					title: `tab${index+1},二次点击确认`,
+					icon: 'none'
 				})
 			}
 		}

@@ -1,4 +1,4 @@
-<!-- z-tabs v0.2.3 by-ZXLee -->
+<!-- z-tabs v0.2.4 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
@@ -244,11 +244,6 @@
 			initTriggerChange: {
 				type: Boolean,
 				default: _gc('initTriggerChange',false)
-			},
-			//是否启用二次点击
-			enableSecondClick: {
-				type:Boolean,
-				default: _gc('enableSecondClick',false)
 			}
 		},
 		mounted() {
@@ -444,11 +439,8 @@
 					this.$emit('change', index, item[this.valueKey]);
 					this.currentIndex = index;
 					this._preUpdateDotPosition(index);
-				}else{
-					if(this.enableSecondClick===true){
-						//二次点击
-						this.$emit('secondClick',index, item[this.valueKey]);
-					}
+				} else {
+					this.$emit('secondClick',index, item[this.valueKey]);
 				}
 			},
 			//scroll-view滚动
