@@ -68,6 +68,13 @@
 			</swiper>
 		</view>
 		
+		<!-- 二次点击 -->
+		<view class="group">
+			<text class="group-title">
+				二次点击
+			</text>	
+			<z-tabs :list="list" enableSecondClick @secondClick="secondClick"></z-tabs>
+		</view>
 		
 		<!-- #ifdef APP-PLUS -->
 		<view class="to-nvue-btn" @click="gotoNvue">
@@ -158,6 +165,14 @@
 					rgb.push(color)
 				}
 				return '#' + rgb.join('');
+			},
+			
+			//二次点击
+			secondClick(index,item){
+				uni.showToast({
+					title:`tab${index+1},二次点击确认`,
+					icon:'none'
+				})
 			}
 		}
 	}
