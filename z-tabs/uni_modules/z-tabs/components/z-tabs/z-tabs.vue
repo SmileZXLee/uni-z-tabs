@@ -1,4 +1,4 @@
-<!-- z-tabs v0.2.4 by-ZXLee -->
+<!-- z-tabs v0.2.5 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：790460711 -->
@@ -360,7 +360,10 @@
 				const barWidth = this.pxBarWidth;
 				if(this.currentSwiperIndex !== this.currentIndex){
 					dxRate = dxRate - (this.currentSwiperIndex - this.currentIndex);
-					this.bottomDotXForIndex = this._getBottomDotX(this.itemNodeInfos[this.currentSwiperIndex], barWidth);
+					const currentNode = this.itemNodeInfos[this.currentSwiperIndex];
+					if (!!currentNode){
+						this.bottomDotXForIndex = this._getBottomDotX(currentNode, barWidth);
+					}
 				}
 				const currentIndex = this.currentSwiperIndex;
 				let nextIndex = currentIndex + (isRight ? 1 : -1);
