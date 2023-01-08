@@ -1,5 +1,5 @@
 # uni-z-tabs
-[![version](https://img.shields.io/badge/version-0.2.2-blue)](https://github.com/SmileZXLee/uni-z-tabs)
+[![version](https://img.shields.io/badge/version-0.2.5-blue)](https://github.com/SmileZXLee/uni-z-tabs)
 [![license](https://img.shields.io/github/license/SmileZXLee/uni-z-tabs)](https://en.wikipedia.org/wiki/MIT_License)
 
 > 【基于uni-app】一个简单轻量的tabs标签，全平台兼容，支持nvue、vue3
