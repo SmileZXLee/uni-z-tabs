@@ -1,10 +1,10 @@
-<!-- z-tabs v0.2.5 by-ZXLee -->
+<!-- z-tabs v0.2.6 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
-<!-- 反馈QQ群：790460711 -->
+<!-- 反馈QQ群：371624008 -->
 
 <template name="z-tabs">
-	<view class="z-tabs-conatiner" :style="[{background:bgColor}, tabsStyle]">
+	<view class="z-tabs-conatiner" :style="[{background:bgColor}, {height: unit==='rpx' ? '80rpx' : '40px'}, tabsStyle]">
 		<view class="z-tabs-left">
 			<slot name="left" />
 		</view>
@@ -14,11 +14,11 @@
 					<view class="z-tabs-list" :style="[tabsListStyle, {marginTop: -finalBottomSpace+'px'}]">
 						<view :ref="`z-tabs-item-${index}`" :id="`z-tabs-item-${index}`" class="z-tabs-item" :style="[tabStyle]" v-for="(item,index) in list" :key="index" @click="tabsClick(index,item)">
 							<view class="z-tabs-item-title-container">
-								<text :class="{'z-tabs-item-title':true,'z-tabs-item-title-disabled':item.disabled}" 
+								<text :class="{'z-tabs-item-title-rpx':unit==='rpx','z-tabs-item-title-px':unit==='px','z-tabs-item-title-disabled':item.disabled}" 
 									:style="[{color:item.disabled?disabledColor:(currentIndex===index?activeColor:inactiveColor)},item.disabled?disabledStyle:(currentIndex===index?activeStyle:inactiveStyle)]">
 									{{item[nameKey]||item}}
 								</text>
-								<text v-if="item.badge&&_formatCount(item.badge.count).length" class="z-tabs-item-badge" :style="[badgeStyle]">{{_formatCount(item.badge.count)}}</text>
+								<text v-if="item.badge&&_formatCount(item.badge.count).length" class="z-tabs-item-badge" :class="{'z-tabs-item-badge-rpx':unit==='rpx','z-tabs-item-badge-px':unit==='px'}" :style="[badgeStyle]">{{_formatCount(item.badge.count)}}</text>
 							</view>
 						</view>
 					</view>
@@ -91,6 +91,7 @@
 	 * @property {String} bg-color z-tabs背景色
 	 * @property {Object} tabs-style z-tabs样式
 	 * @property {Boolean} init-trigger-change 初始化时是否自动触发change事件
+	 * @property {String} unit z-tabs中布局的单位，默认为rpx
 	 * @event {Function(index,value)} change tabs改变时触发，index:当前切换到的index；value:当前切换到的value
 	 * @example <z-tabs :list="list"></z-tabs>
 	 */
@@ -244,6 +245,11 @@
 			initTriggerChange: {
 				type: Boolean,
 				default: _gc('initTriggerChange',false)
+			},
+			//z-tabs中布局的单位，默认为rpx
+			unit: {
+				type: String,
+				default: _gc('unit', 'rpx')
 			}
 		},
 		mounted() {
@@ -339,13 +345,13 @@
 				return this._convertTextToPx(this.tabWidth);
 			},
 			finalBarWidth(){
-				return this._convertTextToPx(this.barWidth);
+				return this._convertTextToPx(this._addUnit(this.barWidth, this.unit));
 			},
 			finalBarHeight(){
-				return this._convertTextToPx(this.barHeight);
+				return this._convertTextToPx(this._addUnit(this.barHeight, this.unit));
 			},
 			finalBottomSpace(){
-				return this._convertTextToPx(this.bottomSpace);
+				return this._convertTextToPx(this._addUnit(this.bottomSpace, this.unit));
 			}
 		},
 		methods: {
@@ -608,6 +614,18 @@
 					return Number(text);
 				}
 				return 0;
+			},
+			// 添加单位
+			_addUnit(value, unit) {
+				if (Object.prototype.toString.call(value) === '[object String]') {
+					let tempValue = value;
+					tempValue = tempValue.replace('rpx', '').replace('upx', '').replace('px', '');
+					if (value.indexOf('rpx') === -1 && value.indexOf('upx') === -1 && value.indexOf('px') !== -1) {
+						tempValue = parseFloat(tempValue) * 2;
+					}
+					value = tempValue;
+				}
+				return unit === 'rpx' ? value + 'rpx' : (value / 2) + 'px';
 			}
 		}
 		
@@ -625,7 +643,6 @@
 		width: 750rpx;
 		/* #endif */
 		flex-direction: row;
-		height: 80rpx;
 	}
 	
 	.z-tabs-scroll-view-conatiner{
@@ -695,8 +712,12 @@
 		align-items: center;
 	}
 	
-	.z-tabs-item-title{
+	.z-tabs-item-title-rpx{
 		font-size: 30rpx;
+	}
+	
+	.z-tabs-item-title-px{
+		font-size: 15px;
 	}
 	
 	.z-tabs-item-title-disabled{
@@ -706,12 +727,21 @@
 	}
 	
 	.z-tabs-item-badge{
-		margin-left: 8rpx;
 		background-color: #ec5b56;
 		color: white;
-		font-size: 22rpx;
 		border-radius: 100px;
+	}
+	
+	.z-tabs-item-badge-rpx{
+		margin-left: 8rpx;
+		font-size: 22rpx;
 		padding: 0rpx 10rpx;
+	}
+	
+	.z-tabs-item-badge-px{
+		margin-left: 4px;
+		font-size: 11px;
+		padding: 0px 5px;
 	}
 	
 	.z-tabs-bottom{
