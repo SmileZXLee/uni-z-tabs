@@ -1,4 +1,4 @@
-<!-- z-tabs v0.2.6 by-ZXLee -->
+<!-- z-tabs v0.2.7 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：371624008 -->
@@ -160,6 +160,11 @@
 			barHeight: {
 				type: [Number, String],
 				default: _gc('barHeight',8)
+			},
+			//swiper的宽度，单位rpx，支持传100、"100px"或"100rpx"，默认为"750rpx"
+			swiperWidth: {
+				type: [Number, String],
+				default: _gc('swiperWidth',750)
 			},
 			//滑块样式，其中的width和height将被barWidth和barHeight覆盖
 			barStyle: {
@@ -350,6 +355,9 @@
 			finalBarHeight(){
 				return this._convertTextToPx(this._addUnit(this.barHeight, this.unit));
 			},
+			finalSwiperWidth(){
+				return this._convertTextToPx(this.swiperWidth);
+			},
 			finalBottomSpace(){
 				return this._convertTextToPx(this._addUnit(this.bottomSpace, this.unit));
 			}
@@ -360,7 +368,7 @@
 				if (!this.shouldSetDx) return;
 				const isLineMode = this.barAnimateMode === 'line';
 				const isWormMode = this.barAnimateMode === 'worm';
-				let dxRate = dx / this.tabsSuperWidth;
+				let dxRate = dx / this.finalSwiperWidth;
 				this.currentSwiperIndex = this.currentIndex + parseInt(dxRate);
 				const isRight = dxRate > 0;
 				const barWidth = this.pxBarWidth;
@@ -501,7 +509,9 @@
 							}
 						}
 					}
-					this.bottomDotX = this._getBottomDotX(node, this.finalBarWidth, offset);
+					if (node) {
+						this.bottomDotX = this._getBottomDotX(node, this.finalBarWidth, offset);
+					}
 					this.bottomDotXForIndex = this.bottomDotX;
 					if (this.tabsWidth) {
 						setTimeout(()=>{
