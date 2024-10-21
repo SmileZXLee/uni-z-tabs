@@ -1,4 +1,4 @@
-<!-- z-tabs v0.2.7 by-ZXLee -->
+<!-- z-tabs v0.3.0 by-ZXLee -->
 <!-- github地址:https://github.com/SmileZXLee/uni-z-tabs -->
 <!-- dcloud地址:https://ext.dcloud.net.cn/plugin?name=z-tabs -->
 <!-- 反馈QQ群：371624008 -->
@@ -49,7 +49,10 @@
 	// #endif
 	import zTabsConfig from './config/index'
 	
-	//获取默认配置信息
+	// #ifdef APP-HARMONY
+	let screenWidth = 0;
+	// #endif
+	// 获取默认配置信息
 	function _gc(key, defaultValue) {
 		let config = null;
 		if (zTabsConfig && Object.keys(zTabsConfig).length) {
@@ -60,9 +63,21 @@
 		const value = config[_toKebab(key)];
 		return value === undefined ? defaultValue : value;
 	}
-	//驼峰转短横线
+	// 驼峰转短横线
 	function _toKebab(value) {
 		return value.replace(/([A-Z])/g, "-$1").toLowerCase();
+	}
+	// rpx => px，兼容鸿蒙
+	function rpx2px(rpx) {
+		// #ifdef APP-HARMONY
+		if (!screenWidth) {
+			screenWidth = uni.getSystemInfoSync().screenWidth;
+		}
+		return (screenWidth * Number.parseFloat(rpx)) / 750;
+		// #endif
+		// #ifndef APP-HARMONY
+		return uni.upx2px(rpx);
+		// #endif
 	}
 	
 	/**
@@ -109,9 +124,9 @@
 				barCalcedWidth: 0,
 				pxBarWidth: 0,
 				scrollLeft: 0,
-				tabsSuperWidth: uni.upx2px(750),
-				tabsWidth: uni.upx2px(750),
-				tabsHeight: uni.upx2px(80),
+				tabsSuperWidth: rpx2px(750),
+				tabsWidth: rpx2px(750),
+				tabsHeight: rpx2px(80),
 				tabsLeft: 0,
 				tabsContainerWidth: 0,
 				itemNodeInfos: [],
@@ -501,7 +516,7 @@
 						if (nodeRes) {
 							node = nodeRes[0];
 							offset = this.currentScrollLeft;
-							this.tabsHeight = Math.max(node.height + uni.upx2px(28), this.tabsHeight);
+							this.tabsHeight = Math.max(node.height + rpx2px(28), this.tabsHeight);
 							tabsContainerWidth = 0;
 							for(let i = 0;i < this.itemNodeInfos.length;i++){
 								let oldNode = this.itemNodeInfos[i];
@@ -608,7 +623,7 @@
 			_convertTextToPx(text) {
 				const dataType = Object.prototype.toString.call(text);
 				if (dataType === '[object Number]') {
-					return uni.upx2px(text);
+					return rpx2px(text);
 				}
 				let isRpx = false;
 				if (text.indexOf('rpx') !== -1 || text.indexOf('upx') !== -1) {
@@ -617,10 +632,10 @@
 				} else if (text.indexOf('px') !== -1) {
 					text = text.replace('px', '');
 				} else {
-					text = uni.upx2px(text);
+					text = rpx2px(text);
 				}
 				if (!isNaN(text)) {
-					if (isRpx) return Number(uni.upx2px(text));
+					if (isRpx) return Number(rpx2px(text));
 					return Number(text);
 				}
 				return 0;
